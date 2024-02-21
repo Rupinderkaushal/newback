@@ -6,7 +6,7 @@ const uri = "mongodb+srv://expenses:expenses@cluster0.ju878l4.mongodb.net/?retry
 const mongoose = require("mongoose") ;
 const {Schema,model} = mongoose;
 
-mongoose.connect("mongodb+srv://expenses:expenses@cluster0.eyhty.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://expenses:expenses@cluster0.eyhty.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{ useNewUrlParser: true, useUnifiedTopology: true })
 
 app.use(cors());
 app.use(express.json());
