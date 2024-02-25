@@ -1,18 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 const app = express ();
-
+require('./db/connection');
+const routes = require('./src/startup/index');
 
 app.use(cors());
 app.use(express.json());
 
 
 
-app.get("/",(req,res)=>{
-    res.json({
-        name: "Rupinder Singh"
-    })
-});
+app.use(routes)
 
 
 
