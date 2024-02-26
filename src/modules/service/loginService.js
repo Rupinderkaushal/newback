@@ -1,3 +1,4 @@
+const { response } = require("express");
 const { SignUpModel, ExpenseModel } = require("../../../models");
 
 const loginService =async(email,password)=>{
@@ -66,10 +67,55 @@ const listExpenseService=async()=>{
        return{response:"error",statusCode:400,error:true}
     }
 };
+const deleteExpensesService=async(id)=>{
+try {
+    const dbResponse = await ExpenseModel.deleteOne({_id:id});
+    console.log("dbResp",dbResponse);
+    if(dbResponse.deletedCount > 0){
+    return {response:"Entry Deleted Successfully",statusCode:200,error:false}}
+    else {
+        return {
+            response: "No matching entry found for deletion",
+            statusCode: 404, // Not Found
+            error: true
+        };
+    }
+} catch (error) {
+    console.log("error",error)
+    return {response:"Error during delete operation",statusCode:400,error:true}
+}
+}
+const editExpensesService=async(id,title,amount)=>{
+    try {
+        const dbResponse = await ExpenseModel.updateOne({
+            _id:id},{
+                $set:{title:title,amount:amount}
+        });
+        console.log("dbResponse",dbResponse)
+        return{response:'updated Successfully',statusCode:200,error:false}
+    } catch (error) {
+        return{response:'error',statusCode:400,error:true}
+    }
+};
+const fetchExpenseById=async(id)=>{
+    try {
+        const resp = await ExpenseModel.findOne({_id:id});
+        if(resp === null){
+            return{ response:"error in try",statusCode:400,error:true}
+        }
+        return{ response:resp,statusCode:200,error:false}
+    } catch (error) {
+        console.log("error",error)
+        return{ response:"error",statusCode:400,error:true}
+    }
+};
 
 module.exports ={
     loginService,
     signUpService,
     expenseService,
     listExpenseService,
+    deleteExpensesService,
+    editExpensesService,
+    fetchExpenseById,
 }

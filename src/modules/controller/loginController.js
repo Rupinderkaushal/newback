@@ -1,4 +1,4 @@
-const { loginService, signUpService, expenseService, listExpenseService } = require("../service/loginService");
+const { loginService, signUpService, expenseService, listExpenseService, deleteExpensesService, editExpensesService, fetchExpenseById } = require("../service/loginService");
 
 const login=async(req,res)=>{
     try {
@@ -41,10 +41,47 @@ const listExpense=async(req,res)=>{
         return res.status(400).send(error) 
     }
 };
+const delelteExpenses=async(req,res)=>{
+    try {
+        const {id} = req.params;
+        const {response,statusCode,error} = await deleteExpensesService(id);
+        if(error) return res.status(statusCode).send(response);
+        return res.status(statusCode).send(response)
+    } catch (error) {
+        console.log("error",error)
+        return res.status(400).send(error)
+    }
+};
+const editExpenses=async(req,res)=>{
+    try {
+        const {id,title,amount} = req.body;
+        console.log("abcccccc",id,title,amount)
+        const {response,statusCode,error} = await editExpensesService(id,title,amount);
+        if(error) return res.status(statusCode).send(response);
+        return res.status(statusCode).send(response)
+    } catch (error) {
+        console.log("error",error)
+        return res.status(400).send(error)
+    }
+};
+const fetchById =async(req,res)=>{
+    try {
+        const {id} = req.params;
+        const {response,statusCode,error} = await fetchExpenseById(id);
+        if(error) return res.status(statusCode).send(response)
+        return res.status(statusCode).send(response)
+    } catch (error) {
+        console.log("fetchById error",error)
+        return res.status(400).send(error)
+    }
+};
 
 module.exports={
     login,
     signUp,
     addExpense,
-    listExpense
+    listExpense,
+    delelteExpenses,
+    editExpenses,
+    fetchById
 }
