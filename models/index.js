@@ -18,8 +18,22 @@ const signUpSchema = new mongoose.Schema({
     }
 });
 
+const expenseSchema = new mongoose.Schema({
+    title:{
+        type:String
+    },
+    amount:{
+        type:Number
+    },
+    date:{
+        type:String
+    }
+});
+
 const SignUpModel = mongoose.model('User',signUpSchema);
+const ExpenseModel = mongoose.model('Expense',expenseSchema)
 
 module.exports={
-    SignUpModel
+    SignUpModel,
+    ExpenseModel
 };

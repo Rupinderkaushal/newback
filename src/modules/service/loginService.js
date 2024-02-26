@@ -1,4 +1,4 @@
-const { SignUpModel } = require("../../../models");
+const { SignUpModel, ExpenseModel } = require("../../../models");
 
 const loginService =async(email,password)=>{
     try {
@@ -35,8 +35,41 @@ const signUpService=async(userData)=>{
         return {response: "user Creation Falied",statusCode:400,error:true}
     }
 };
+const expenseService=async(expenseData)=>{
+    try {
+        const dbResponse = await ExpenseModel.create({
+            title:expenseData.title,
+            amount:expenseData.amount,
+            date:expenseData.date
+        });
+        if(dbResponse === null){
+            return{response:"expense didnt added",statusCode:400,error:true}
+        }
+        console.log("&&&&&&&&&&&&&&&&&",dbResponse)
+        return{response:"Expense Added Successfully",statusCode:200,error:false}
+    } catch (error) {
+        return{response:"error during adding expense ",statusCode:400,error:true}
+    }
+};
+const listExpenseService=async()=>{
+    try {
+       const resp = (await ExpenseModel.find());
+        // Convert resp to JSON format and remove index keys
+        const jsonResponse = resp.map(item => item.toJSON());
+      console.log("97",jsonResponse)
+        // Removing index keys
+        const jsonResponseWithoutIndex = Object.values(jsonResponse);
+        console.log("98",jsonResponseWithoutIndex)
+       return{response:jsonResponseWithoutIndex,statusCode:200,error:false}
+    } catch (error) {
+        console.log("error",error)
+       return{response:"error",statusCode:400,error:true}
+    }
+};
 
 module.exports ={
     loginService,
-    signUpService
+    signUpService,
+    expenseService,
+    listExpenseService,
 }
