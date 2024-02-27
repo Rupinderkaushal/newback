@@ -3,9 +3,9 @@ const { loginService, signUpService, expenseService, listExpenseService, deleteE
 const login=async(req,res)=>{
     try {
         const {email,password} = req.body;
-        const {response,statusCode,error} = await loginService(email,password);
+        const {response,statusCode,error,accessToken} = await loginService(email,password);
         if(error) return res.status(statusCode).send(response);
-        return res.status(statusCode).send(response);
+        return res.status(statusCode).json({message:response,accessToken});
     } catch (error) {
         console.log("login-controller", error);
         return res.status(400).send(error)
@@ -54,7 +54,8 @@ const delelteExpenses=async(req,res)=>{
 };
 const editExpenses=async(req,res)=>{
     try {
-        const {id,title,amount} = req.body;
+        const {id} = req.params;
+        const {title,amount} = req.body;
         console.log("abcccccc",id,title,amount)
         const {response,statusCode,error} = await editExpensesService(id,title,amount);
         if(error) return res.status(statusCode).send(response);
@@ -67,6 +68,7 @@ const editExpenses=async(req,res)=>{
 const fetchById =async(req,res)=>{
     try {
         const {id} = req.params;
+        console.log("heelo")
         const {response,statusCode,error} = await fetchExpenseById(id);
         if(error) return res.status(statusCode).send(response)
         return res.status(statusCode).send(response)

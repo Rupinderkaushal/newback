@@ -1,13 +1,22 @@
 const { response } = require("express");
 const { SignUpModel, ExpenseModel } = require("../../../models");
+const jwt = require("jsonwebtoken");
+const secretKey = "TEST_SECRET_KEY";
 
+
+function generateToken(user) {
+    return jwt.sign(user, secretKey, { expiresIn: "30d" }); // Token expires in 1 hour
+  }
 const loginService =async(email,password)=>{
     try {
+        const token = generateToken({
+            email: email,
+          });
         const dbResponse =await SignUpModel.findOne({email: email,password:password});
         if(dbResponse === null){
             return{response:"User not Found",statusCode:400,error:true}
         }
-                return{response:"Login Successfull",statusCode:200,error:false}
+                return{response:{message:"user login Successfully",userName:dbResponse.username},accessToken:token,statusCode:200,error:false}
     } catch (error) {
         console.log("login-error",error)
       return {response:"Login Failed",statusCode:400,error:true}  
@@ -18,6 +27,7 @@ const signUpService=async(userData)=>{
         const isUserExisted = await SignUpModel.findOne({
             email:userData.email
         });
+        
         if(isUserExisted){
             return{ response:"User already existed", statusCode:400, error:true}
         }
@@ -27,7 +37,7 @@ const signUpService=async(userData)=>{
             username: userData.username,
             gender: userData.gender,
             mobileNumber: userData.mobileNumber,
-
+            token
         });
         console.log("userData",user)
         return{response:"user created Successfully!",statusCode:200,error:false}
@@ -109,6 +119,7 @@ const fetchExpenseById=async(id)=>{
         return{ response:"error",statusCode:400,error:true}
     }
 };
+
 
 module.exports ={
     loginService,
