@@ -37,7 +37,6 @@ const signUpService=async(userData)=>{
             username: userData.username,
             gender: userData.gender,
             mobileNumber: userData.mobileNumber,
-            token
         });
         console.log("userData",user)
         return{response:"user created Successfully!",statusCode:200,error:false}
