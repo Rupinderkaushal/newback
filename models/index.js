@@ -27,6 +27,9 @@ const expenseSchema = new mongoose.Schema({
     },
     date:{
         type:String
+    },
+    addedBy:{
+        type:String
     }
 });
 

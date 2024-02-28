@@ -50,7 +50,8 @@ const expenseService=async(expenseData)=>{
         const dbResponse = await ExpenseModel.create({
             title:expenseData.title,
             amount:expenseData.amount,
-            date:expenseData.date
+            date:expenseData.date,
+            addedBy:expenseData.addedBy
         });
         if(dbResponse === null){
             return{response:"expense didnt added",statusCode:400,error:true}
