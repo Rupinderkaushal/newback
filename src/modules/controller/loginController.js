@@ -33,7 +33,8 @@ const addExpense =async(req,res)=>{
 };
 const listExpense=async(req,res)=>{
     try {
-        const{response,statusCode,error} = await listExpenseService();
+        const {id} = req.params;
+        const{response,statusCode,error} = await listExpenseService(id);
         if(error) return res.status(statusCode).send(response)
         return res.status(statusCode).send(response)
     } catch (error) {

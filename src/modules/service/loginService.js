@@ -62,15 +62,13 @@ const expenseService=async(expenseData)=>{
         return{response:"error during adding expense ",statusCode:400,error:true}
     }
 };
-const listExpenseService=async()=>{
+const listExpenseService=async(name)=>{
     try {
-       const resp = (await ExpenseModel.find());
+       const resp = (await ExpenseModel.find({addedBy:name}));
         // Convert resp to JSON format and remove index keys
         const jsonResponse = resp.map(item => item.toJSON());
-      console.log("97",jsonResponse)
         // Removing index keys
         const jsonResponseWithoutIndex = Object.values(jsonResponse);
-        console.log("98",jsonResponseWithoutIndex)
        return{response:jsonResponseWithoutIndex,statusCode:200,error:false}
     } catch (error) {
         console.log("error",error)
