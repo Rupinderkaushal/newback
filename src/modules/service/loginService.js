@@ -16,7 +16,7 @@ const loginService =async(email,password)=>{
         if(dbResponse === null){
             return{response:"User not Found",statusCode:400,error:true}
         }
-                return{response:{message:"user login Successfully",userName:dbResponse.username},accessToken:token,statusCode:200,error:false}
+                return{response:{message:"user login Successfully",userName:dbResponse.username,gender:dbResponse.gender},accessToken:token,statusCode:200,error:false}
     } catch (error) {
         console.log("login-error",error)
       return {response:"Login Failed",statusCode:400,error:true}  
