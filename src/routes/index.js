@@ -9,6 +9,7 @@ router.get('/list-expenses/:id',loginController.listExpense);
 router.delete('/delete-expense/:id',loginController.delelteExpenses);
 router.post('/edit-expense/:id',loginController.editExpenses);
 router.get('/fetch-by-id/:id',loginController.fetchById);
+router.get('/fetch-videos',loginController.fetchVideos)
 
 
 

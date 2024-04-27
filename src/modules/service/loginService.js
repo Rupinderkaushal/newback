@@ -1,7 +1,9 @@
 const { response } = require("express");
-const { SignUpModel, ExpenseModel } = require("../../../models");
+const { SignUpModel, ExpenseModel, VideoModel } = require("../../../models");
 const jwt = require("jsonwebtoken");
 const secretKey = "TEST_SECRET_KEY";
+const fs = require('fs');
+
 
 
 function generateToken(user) {
@@ -117,7 +119,17 @@ const fetchExpenseById=async(id)=>{
         return{ response:"error",statusCode:400,error:true}
     }
 };
+const fetchVideosService=async()=>{
+    try {
+        const resp = await VideoModel.find();
 
+        return {data:resp,statusCode: 200, error: false}
+    } catch (error) {
+        console.log("error",error)
+        return {data:" error during video fetching",statusCode: 400, error: true}
+        
+    }
+};
 
 module.exports ={
     loginService,
@@ -127,4 +139,5 @@ module.exports ={
     deleteExpensesService,
     editExpensesService,
     fetchExpenseById,
+    fetchVideosService
 }

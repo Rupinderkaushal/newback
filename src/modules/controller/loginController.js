@@ -1,4 +1,4 @@
-const { loginService, signUpService, expenseService, listExpenseService, deleteExpensesService, editExpensesService, fetchExpenseById } = require("../service/loginService");
+const { loginService, signUpService, expenseService, listExpenseService, deleteExpensesService, editExpensesService, fetchExpenseById, fetchVideosService } = require("../service/loginService");
 
 const login=async(req,res)=>{
     try {
@@ -78,6 +78,16 @@ const fetchById =async(req,res)=>{
         return res.status(400).send(error)
     }
 };
+const fetchVideos=async(req,res)=>{
+    try {
+        const {data,statusCode,error} = await fetchVideosService();
+        if(error) return res.status(statusCode).json(data);
+        return res.status(statusCode).json(data)
+    } catch (error) {
+        console.log("error-controller",error);
+        return res.status(400).json(error)
+    }
+};
 
 module.exports={
     login,
@@ -86,5 +96,6 @@ module.exports={
     listExpense,
     delelteExpenses,
     editExpenses,
-    fetchById
+    fetchById,
+    fetchVideos
 }
